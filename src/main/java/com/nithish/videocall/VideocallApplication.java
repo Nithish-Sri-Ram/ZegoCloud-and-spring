@@ -29,6 +29,14 @@ public class VideocallApplication {
 							.username("Thangam")
 							.email("thangam@gmail.com")
 							.password("ttt")
+					.build());service.register(User.builder()
+							.username("Nyra")
+							.email("nyra@gmail.com")
+							.password("nnn")
+					.build());service.register(User.builder()
+							.username("Thiru")
+							.email("thiru@gmail.com")
+							.password("ttt")
 					.build());
 		};
 	}

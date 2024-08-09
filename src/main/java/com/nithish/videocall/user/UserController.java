@@ -3,14 +3,15 @@ package com.nithish.videocall.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/vi/users")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @Slf4j
@@ -19,29 +20,32 @@ public class UserController {
     private final UserService service;
 
     @PostMapping
-    public void register(User user){
+    public void register(
+            @RequestBody User user
+    ) {
         service.register(user);
     }
 
     @PostMapping("/login")
-    public User login(User user){
+    public User login(@RequestBody User user) {
         return service.login(user);
     }
 
     @PostMapping("/logout")
-    public void logout(String email){
-        service.logout(email);
+    public void logout(@RequestBody User email) {
+        service.logout(email.getEmail());
     }
 
     @GetMapping
-    public List<User> findAll(){
+    public List<User> findAll() {
         return service.findAll();
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handle(Exception ex){
+    public ResponseEntity<String> handle(Exception ex) {
         ex.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity
+                .status(INTERNAL_SERVER_ERROR)
                 .body(ex.getMessage());
     }
 }
